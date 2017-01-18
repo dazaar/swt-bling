@@ -13,14 +13,9 @@ buildscript {
 repositories {
   mavenCentral()
   maven {
-    url "https://swt-repo.googlecode.com/svn/repo/"
+    url 'http://maven-eclipse.github.io/maven'
   }
 }
-
-apply from: 'gradle/publish.gradle'
-apply from: 'gradle/swt.gradle'
-apply from: 'gradle/integTest.gradle'
-apply from: 'gradle/example.gradle'
 
 defaultTasks 'build'
 
@@ -34,8 +29,10 @@ public String getPlatform(String platform) {
   }
 }
 
+apply from: 'gradle/swt.gradle'
+
 ext {
-  swtVersion = '4.3'
+  swtVersion = '4.6.1'
   swtArtifactName = "org.eclipse.swt.${swtWindowingLibrary}.${swtPlatform}.${swtArch}"
 
   platform = getPlatform(System.properties['os.name'])
@@ -43,10 +40,13 @@ ext {
 
 dependencies {
   compile "org.eclipse.swt:${swtArtifactName}:${swtVersion}"
-  testCompile "junit:junit:4.11"
-  testCompile "org.mockito:mockito-all:1.9.5"
-  examplesCompile "org.reflections:reflections:0.9.9-RC1"
+  testCompile "junit:junit:4.12"
+  testCompile "org.mockito:mockito-all:1.10.19"
 }
+
+apply from: 'gradle/publish.gradle'
+apply from: 'gradle/integTest.gradle'
+apply from: 'gradle/example.gradle'
 
 task ragel() {
   inputs.dir 'src/main/resources/ragel'

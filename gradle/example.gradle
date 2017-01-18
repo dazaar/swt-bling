@@ -5,17 +5,20 @@ sourceSets {
   }
 }
 
+configurations {
+  examplesCompile.extendsFrom compile
+  examplesRuntime.extendsFrom runtime
+}
+
+dependencies {
+  compile 'org.reflections:reflections:0.9.9-RC1'
+}
 
 idea {
   module {
     sourceDirs += file('src/examples/java')
     scopes.COMPILE.plus += configurations.examplesCompile
   }
-}
-
-configurations {
-  examplesCompile.extendsFrom compile
-  examplesRuntime.extendsFrom runtime
 }
 
 tasks.addRule("Pattern: runExample<WidgetName>") { String taskName ->
